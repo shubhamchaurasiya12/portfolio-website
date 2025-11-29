@@ -82,3 +82,8 @@ The UI was re-engineered from scratch to prioritize readability and motion witho
 │   ├── index.html         # Homepage (Landing, Grid, Skills)
 │   └── project_detail.html # Dynamic Case Study template
 └── README.md
+```
+# 📬 Contact
+Portfolio: https://shubham-portfolio-ftzo.onrender.com/
+LinkedIn: https://www.linkedin.com/in/chrsshubh/
+Email: xshubhamchaurasiya@gmail.com
