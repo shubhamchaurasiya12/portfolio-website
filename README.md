@@ -84,6 +84,8 @@ The UI was re-engineered from scratch to prioritize readability and motion witho
 └── README.md
 ```
 # 📬 Contact
-Portfolio: https://shubham-portfolio-ftzo.onrender.com/
-LinkedIn: https://www.linkedin.com/in/chrsshubh/
-Email: xshubhamchaurasiya@gmail.com
+```bash
+* Portfolio: https://shubham-portfolio-ftzo.onrender.com/
+* LinkedIn: https://www.linkedin.com/in/chrsshubh/
+* Email: xshubhamchaurasiya@gmail.com
+---
