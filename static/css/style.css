@@ -1,0 +1,757 @@
+/* =========================================
+   1. VARIABLES & RESET
+   ========================================= */
+:root {
+    --bg-cream: #FDFDF5;
+    --text-main: #191919;
+    --text-muted: rgba(25, 25, 25, 0.6);
+    --accent-orange: #FF6633;
+    
+    --glass-white: rgba(253, 253, 245, 0.85);
+    --border-light: rgba(25, 25, 25, 0.08);
+    --card-hover-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+
+    --font-heading: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    
+    --nav-height: 80px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-cream);
+    color: var(--text-main);
+    font-family: var(--font-heading);
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+/* Texture Overlay */
+.noise-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 900;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* =========================================
+   2. SPHINX-STYLE NAVBAR (Responsive)
+   ========================================= */
+nav {
+    position: fixed;
+    top: 0; width: 100%; height: var(--nav-height);
+    display: flex; justify-content: center; align-items: center;
+    padding: 0 24px;
+    z-index: 1000;
+    background: var(--glass-white);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-light);
+    transition: transform 0.3s ease;
+}
+
+.nav-container {
+    width: 100%;
+    max-width: 1400px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo */
+.logo {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--text-main);
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Desktop Links */
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    font-weight: 500;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.nav-links a:hover { opacity: 1; }
+
+/* Right Side CTA */
+.nav-cta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.btn-nav {
+    background: var(--text-main);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-family: var(--font-mono);
+    transition: transform 0.2s;
+}
+.btn-nav:hover { transform: translateY(-2px); }
+
+/* Mobile Menu Button */
+#menu-btn {
+    display: none; /* Hidden on desktop */
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 6px;
+}
+#menu-btn span {
+    display: block; width: 24px; height: 2px; background: var(--text-main); transition: 0.3s;
+}
+
+/* =========================================
+   3. HERO SECTION (Motion & Graphics)
+   ========================================= */
+header {
+    height: 100vh;
+    min-height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding-top: var(--nav-height);
+}
+
+/* Canvas Background */
+#hero-canvas {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 900px;
+    padding: 0 24px;
+    text-align: center; /* Centered like Sphinx hero */
+}
+
+/* Graphic: The "Flip" Star */
+.hero-graphic {
+    display: inline-block;
+    width: 40px; height: 40px;
+    margin-bottom: 1rem;
+    animation: rotateStar 10s linear infinite;
+}
+.hero-graphic svg { width: 100%; height: 100%; fill: var(--text-main); }
+
+@keyframes rotateStar {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Typography using clamp() */
+h1 {
+    font-size: clamp(3rem, 8vw, 5.5rem); /* Responsive sizing */
+    font-weight: 500;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.04em;
+    color: var(--text-main);
+    
+    /* Animation Start State */
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-subtitle {
+    font-family: var(--font-heading);
+    color: var(--text-muted);
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    line-height: 1.6;
+    margin: 0 auto 2.5rem auto;
+    max-width: 600px;
+    
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s; /* Delay */
+}
+
+.cta-group {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.4s; /* Delay */
+}
+
+.cta-group button {
+    padding: 16px 32px;
+    background: var(--text-main);
+    color: #fff;
+    border: none;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+    margin: 0 10px;
+}
+.cta-group button.secondary {
+    background: transparent;
+    color: var(--text-main);
+    border: 1px solid var(--border-light);
+}
+.cta-group button:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+
+@keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================
+   4. INFINITE MARQUEE (Skills Motion)
+   ========================================= */
+/* Replaces static icons with moving belt */
+/* --- UPDATED CSS FOR ICONS --- */
+
+/* 1. Marquee Icons */
+.marquee-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    white-space: nowrap;
+}
+
+.marquee-item i {
+    font-size: 1.5rem; /* Makes icons larger in marquee */
+    filter: grayscale(100%); /* Start grey */
+    transition: 0.3s;
+}
+
+/* Hover effect for marquee */
+.marquee-section:hover .marquee-item i {
+    filter: grayscale(0%); /* Color on hover */
+}
+
+/* 2. Skill Pills (Static Grid) */
+.skill-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px; /* Slightly larger pill */
+    background: #fff;
+    border: 1px solid var(--border-light);
+    border-radius: 50px;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-main);
+    transition: 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.skill-pill i, .skill-pill img {
+    font-size: 1.2rem; /* Icon size */
+    width: auto;
+    height: 1.2rem;
+}
+
+.skill-pill:hover {
+    border-color: var(--accent-orange);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.marquee-section {
+    padding: 4rem 0;
+    border-bottom: 1px solid var(--border-light);
+    overflow: hidden;
+    background: #fff;
+}
+
+.marquee-track {
+    display: flex;
+    gap: 4rem;
+    width: max-content;
+    animation: scroll 30s linear infinite;
+}
+
+
+.marquee-item img { width: 30px; height: 30px; filter: grayscale(100%); opacity: 0.7; }
+
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* Assumes duplicated content */
+}
+
+
+/* =========================================
+   GLOBAL COMPONENT STYLES
+   ========================================= */
+
+/* Tech Tags (Orange Pill Buttons) */
+.tech-tag {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    
+    /* Orange styling */
+    color: var(--accent-orange);
+    background: rgba(255, 102, 51, 0.08); /* Very light orange background */
+    border: 1px solid rgba(255, 102, 51, 0.3); /* Subtle orange border */
+    
+    padding: 6px 14px;
+    border-radius: 50px; /* Pill shape */
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: default;
+}
+
+/* Hover Effect */
+.tech-tag:hover {
+    background: var(--accent-orange);
+    color: #fff; /* White text on hover */
+    border-color: var(--accent-orange);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 102, 51, 0.25); /* Orange glow */
+}
+
+/* =========================================
+   5. BENTO GRID & SECTIONS
+   ========================================= */
+section { padding: 6rem 5%; max-width: 1400px; margin: 0 auto; position: relative; z-index: 10; }
+
+.section-header { margin-bottom: 4rem; }
+.section-header h2 { font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.03em; margin-bottom: 1rem; }
+.section-header p { font-family: var(--font-mono); color: var(--text-muted); text-transform: uppercase; font-size: 0.9rem; }
+
+#projects-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+}
+
+/* Scroll Reveal Class */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+.project-card {
+    grid-column: span 6;
+    background: var(--glass-white);
+    border: 1px solid var(--border-light);
+    padding: 2.5rem;
+    border-radius: 12px;
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 300px;
+}
+
+/* Feature the first item full width on mobile, 8 cols on desktop */
+.project-card:nth-child(1) { grid-column: span 8; }
+.project-card:nth-child(2) { grid-column: span 4; }
+
+.project-card:hover {
+    border-color: var(--text-main);
+    transform: translateY(-5px);
+    box-shadow: var(--card-hover-shadow);
+}
+
+.project-card h3 { font-size: 1.75rem; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+
+.project-card p { color: var(--text-muted); margin-bottom: 2rem; font-size: 1rem; line-height: 1.6; }
+
+.project-card a {
+    align-self: flex-start;
+    color: var(--text-main);
+    font-family: var(--font-mono);
+    text-decoration: none;
+    border-bottom: 1px solid var(--text-main);
+    font-size: 0.9rem;
+    padding-bottom: 2px;
+}
+
+/* Experience Layout */
+.timeline-item {
+    border-left: 1px solid var(--border-light);
+    padding-left: 2rem;
+    padding-bottom: 3rem;
+    position: relative;
+}
+.timeline-item::before {
+    content: ''; position: absolute; left: -5px; top: 0; width: 9px; height: 9px; background: var(--text-main); border-radius: 50%;
+}
+.timeline-item h3 { font-size: 1.5rem; font-weight: 500; }
+.timeline-item .role { font-family: var(--font-mono); color: var(--accent-orange); margin: 5px 0 15px 0; display: block;}
+
+/* =========================================
+   CONTACT FORM STYLING (Premium Look)
+   ========================================= */
+
+#contact {
+    max-width: 800px; /* Constrain width for readability */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Space between inputs */
+    margin-top: 2rem;
+}
+
+/* INPUTS & TEXTAREA */
+input, textarea {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    border-radius: 8px; /* Smooth corners */
+    padding: 1.25rem 1.5rem; /* Spacious padding */
+    
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    color: var(--text-main);
+    
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02); /* Subtle depth */
+}
+
+/* Placeholder Styling */
+::placeholder {
+    color: var(--text-muted);
+    font-family: var(--font-mono); /* Technical font for placeholders */
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+/* FOCUS STATE (The "Active" Look) */
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent-orange); /* Orange border on click */
+    box-shadow: 0 0 0 4px rgba(255, 102, 51, 0.1); /* Orange glow ring */
+    transform: translateY(-2px); /* Slight lift */
+}
+
+/* TEXTAREA SPECIFICS */
+textarea {
+    min-height: 150px;
+    resize: vertical; /* Allow user to resize vertically only */
+}
+
+/* SUBMIT BUTTON */
+button[type="submit"] {
+    align-self: flex-start; /* Align left */
+    background: var(--text-main);
+    color: #ffffff;
+    
+    padding: 16px 40px;
+    border: none;
+    border-radius: 4px;
+    
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Button Hover Effect */
+button[type="submit"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    background: #000000; /* Slightly darker on hover */
+}
+
+/* Button Active/Click Effect */
+button[type="submit"]:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Fixes */
+@media (max-width: 768px) {
+    button[type="submit"] {
+        width: 100%; /* Full width button on mobile */
+        text-align: center;
+    }
+}
+
+/* =========================================
+   7. DARK FOOTER (Sphinx Style)
+   ========================================= */
+footer {
+    background-color: #050505; /* Deep Black */
+    color: #ffffff;
+    padding: 5rem 5%;
+    position: relative;
+    z-index: 20; /* Ensure it sits above everything */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+/* Social Links Row */
+.footer-socials {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.footer-socials a {
+    color: #ffffff;
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+/* Hover Effect: Glow Orange */
+.footer-socials a:hover {
+    opacity: 1;
+    color: var(--accent-orange);
+    text-shadow: 0 0 10px rgba(255, 102, 51, 0.4);
+}
+
+/* Copyright Text */
+.footer-copyright {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 1rem;
+    text-align: center;
+}
+
+/* Divider Line */
+.footer-line {
+    width: 100px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .footer-socials {
+        gap: 1.5rem;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* =========================================
+   6. RESPONSIVE BREAKPOINTS
+   ========================================= */
+@media (max-width: 900px) {
+    .nav-links, .nav-cta { display: none; } /* Hide desktop nav */
+    #menu-btn { display: flex; } /* Show burger */
+    
+    .project-card { grid-column: span 12 !important; } /* Stack cards */
+    
+    /* Mobile Menu Container */
+    .mobile-menu {
+        position: fixed;
+        top: var(--nav-height);
+        left: 0;
+        width: 100%;
+        height: 0;
+        background: var(--bg-cream);
+        overflow: hidden;
+        transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 0;
+    }
+    
+    .mobile-menu.active {
+        height: calc(100vh - var(--nav-height));
+        padding-top: 2rem;
+        border-bottom: 1px solid var(--border-light);
+    }
+    
+    .mobile-menu a {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        text-decoration: none;
+        color: var(--text-main);
+        font-weight: 500;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: 0.3s;
+    }
+    
+    .mobile-menu.active a {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .cta-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+    .cta-group button { margin: 0; width: 100%; }
+}
+
+/* =========================================
+   8. CASE STUDY PAGE (Project Detail)
+   ========================================= */
+
+.cs-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 120px 5% 6rem; /* Top padding clears fixed nav */
+    position: relative;
+    z-index: 10;
+}
+
+/* --- CS HERO --- */
+.cs-header {
+    margin-bottom: 4rem;
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 2rem;
+}
+
+.cs-breadcrumbs {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.cs-breadcrumbs a { color: var(--text-main); text-decoration: none; border-bottom: 1px solid transparent; }
+.cs-breadcrumbs a:hover { border-color: var(--accent-orange); }
+
+.cs-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.03em;
+}
+
+.cs-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+/* --- CS GRID LAYOUT --- */
+.cs-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* 2/3 Content, 1/3 Sidebar */
+    gap: 40px;
+}
+
+/* Main Content (The Readme) */
+.cs-content {
+    background: #fff;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 3rem;
+    font-family: var(--font-heading);
+    color: var(--text-main);
+    line-height: 1.7;
+    box-shadow: var(--card-hover-shadow);
+}
+
+/* Markdown Styling overrides */
+.cs-content h1, .cs-content h2, .cs-content h3 { margin-top: 2rem; margin-bottom: 1rem; letter-spacing: -0.02em; }
+.cs-content p { margin-bottom: 1.5rem; color: rgba(25, 25, 25, 0.8); }
+.cs-content ul { margin-bottom: 1.5rem; padding-left: 1.5rem; }
+.cs-content li { margin-bottom: 0.5rem; }
+.cs-content img { max-width: 100%; border-radius: 8px; border: 1px solid var(--border-light); margin: 1.5rem 0; }
+.cs-content pre { 
+    background: #f4f4f4; 
+    padding: 1.5rem; 
+    border-radius: 8px; 
+    overflow-x: auto; 
+    font-family: var(--font-mono); 
+    font-size: 0.9rem; 
+    border: 1px solid var(--border-light);
+}
+
+/* Sidebar (Stats) */
+.cs-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.cs-card {
+    background: var(--glass-white);
+    border: 1px solid var(--border-light);
+    padding: 1.5rem;
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+}
+
+.cs-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    display: block;
+    letter-spacing: 0.05em;
+}
+
+/* Language Bar Visual */
+.lang-bar {
+    display: flex;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    background: #e0e0e0;
+}
+.lang-list { list-style: none; padding: 0; }
+.lang-item { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.85rem; margin-bottom: 8px; border-bottom: 1px dashed var(--border-light); padding-bottom: 4px;}
+.lang-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+
+/* Mobile */
+@media (max-width: 900px) {
+    .cs-grid { grid-template-columns: 1fr; }
+    .cs-content { padding: 1.5rem; }
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ project.title }} | Case Study</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    
+    <div class="noise-overlay"></div>
+
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="#191919"><rect width="20" height="20" rx="4"/></svg>
+                SC.
+            </a>
+            <div class="nav-cta">
+                <a href="/" class="btn-nav" style="background: transparent; color: var(--text-main); border: 1px solid var(--border-light);">
+                    &larr; Back to Work
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="cs-container">
+        
+        <div class="cs-header">
+            <div class="cs-breadcrumbs">
+                <a href="/">Home</a> / <span>Case Studies</span> / <span>{{ project.repo_name }}</span>
+            </div>
+            
+            <h1 class="cs-title">{{ project.title }}</h1>
+            
+            <div class="cs-actions">
+                <a href="{{ project.github_link }}" target="_blank" class="btn-nav">
+                    View on GitHub 
+                    <span style="font-family: var(--font-mono); margin-left: 5px;">↗</span>
+                </a>
+                </div>
+        </div>
+
+        <div class="cs-grid">
+            
+            <div class="cs-content">
+                {{ project.readme_content | safe }}
+            </div>
+
+            <div class="cs-sidebar">
+                
+                <div class="cs-card">
+                    <span class="cs-label">About Project</span>
+                    <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6;">
+                        {{ project.about }}
+                    </p>
+                    
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1rem;">
+                        {% for tag in project.tags %}
+                            <span class="tech-tag">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="cs-card">
+                    <span class="cs-label">Technology Composition</span>
+                    
+                    <div class="lang-bar">
+                        {% for tech, percent in project.tech_stack.items() %}
+                            <div style="width: {{ percent }}%; background: {{ gh_colors[loop.index0 % 5] }};"></div>
+                        {% endfor %}
+                    </div>
+
+                    <ul class="lang-list">
+                        {% for tech, percent in project.tech_stack.items() %}
+                        <li class="lang-item">
+                            <span>
+                                <span class="lang-dot" style="background: {{ gh_colors[loop.index0 % 5] }};"></span>
+                                {{ tech }}
+                            </span>
+                            <span style="color: var(--text-main);">{{ percent }}%</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="cs-card" style="border-color: var(--accent-orange);">
+                    <span class="cs-label" style="color: var(--accent-orange);">Interested in this stack?</span>
+                    <p style="font-size: 0.9rem; margin-bottom: 1rem;">I am available for freelance projects or full-time roles.</p>
+                    <a href="/#contact" style="text-decoration: none; font-family: var(--font-mono); font-size: 0.85rem; border-bottom: 1px solid; color: var(--text-main);">
+                        Contact Me &rarr;
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Shubham Chaurasiya. Built with Python & Flask.</p>
+    </footer>
+
+</body>
+</html>

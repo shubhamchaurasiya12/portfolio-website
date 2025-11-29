@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shubham Chaurasiya | Data Scientist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div class="noise-overlay"></div>
+
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="#191919"><rect width="20" height="20" rx="4"/></svg>
+                SC.
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#projects">Work</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="#contact" class="btn-nav">Let's Talk</a>
+            </div>
+            <button id="menu-btn" aria-label="Toggle Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="#home" onclick="toggleMenu()">Home</a>
+        <a href="#projects" onclick="toggleMenu()">Work</a>
+        <a href="#skills" onclick="toggleMenu()">Skills</a>
+        <a href="#contact" onclick="toggleMenu()">Contact</a>
+    </div>
+
+    <header id="home">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-content">
+            <div class="hero-graphic">
+                <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M29.2402 18.1709L42.6738 6.6582L45.3408 9.32617L33.8301 22.7549L51.4668 24.1133V27.8857L33.8311 29.2422L45.3438 42.6729L42.6758 45.3408L29.2412 33.8252L27.8848 51.4668H24.1123L22.7539 33.8291L9.32422 45.3408L6.65625 42.6729L18.1689 29.2412L0.533203 27.8857V24.1133L18.167 22.7559L6.65625 9.32617L9.32422 6.6582L22.7549 18.1699L24.1123 0.533203H27.8848L29.2402 18.1709Z" fill="#191919"/></svg>
+            </div>
+            <h1>Data Driven.<br>Future Ready.</h1>
+            <p class="hero-subtitle">Hi, I'm <strong>Shubham Chaurasiya</strong>. Transforming raw data into intelligent business decisions through predictive modeling and analytics.</p>
+            <div class="cta-group">
+                <button onclick="document.getElementById('projects').scrollIntoView()">View Work</button>
+                <a href="/static/resume.pdf" download><button class="secondary">Resume ↓</button></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="marquee-section">
+        <div class="marquee-track">
+            <span class="marquee-item"><i class="devicon-python-plain colored"></i> Python</span>
+            <span class="marquee-item"><i class="devicon-mysql-original colored"></i> SQL</span>
+            <span class="marquee-item"><i class="devicon-scikitlearn-original colored"></i> Scikit-Learn</span>
+            <span class="marquee-item"><i class="devicon-pandas-original colored"></i> Pandas</span>
+            <span class="marquee-item"><i class="devicon-flask-original colored"></i> Flask</span>
+            <span class="marquee-item"><i class="devicon-javascript-plain colored"></i> JavaScript</span>
+            <span class="marquee-item"><i class="devicon-streamlit-plain colored"></i> Streamlit</span>
+            <span class="marquee-item"><i class="devicon-python-plain colored"></i> Python</span>
+            <span class="marquee-item"><i class="devicon-mysql-original colored"></i> SQL</span>
+            <span class="marquee-item"><i class="devicon-scikitlearn-original colored"></i> Scikit-Learn</span>
+            <span class="marquee-item"><i class="devicon-pandas-original colored"></i> Pandas</span>
+            <span class="marquee-item"><i class="devicon-flask-original colored"></i> Flask</span>
+            <span class="marquee-item"><i class="devicon-javascript-plain colored"></i> JavaScript</span>
+            <span class="marquee-item"><i class="devicon-streamlit-plain colored"></i> Streamlit</span>
+        </div>
+    </div>
+
+    <section id="projects">
+        <div class="section-header reveal">
+            <p>Selected Work</p>
+            <h2>Deployments & Analysis</h2>
+        </div>
+        <div id="projects-grid">
+            {% for project in projects %}
+            <div class="project-card reveal">
+                <div>
+                    <span class="tech-tag">{{ project.tech }}</span>
+                    <h3>{{ project.title }}</h3>
+                    <p>{{ project.desc }}</p>
+                </div>
+                <a href="{{ url_for('project_detail', id=project.id) }}">View Case Study →</a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="section-header reveal">
+            <p>Expertise</p>
+            <h2>Technical Arsenal</h2>
+        </div>
+        
+        <div class="skill-category reveal">
+            <h3>Core Data & Analytics</h3>
+            <div class="orbit-container">
+                <div class="skill-pill"><i class="devicon-python-plain colored"></i> Python</div>
+                <div class="skill-pill"><i class="devicon-mysql-original colored"></i> SQL</div>
+                <div class="skill-pill"><i class="devicon-google-plain colored"></i> Google Sheets</div>
+                <div class="skill-pill"><i class="devicon-windows8-original colored"></i> Excel</div>
+                <div class="skill-pill"><i class="devicon-azuresqldatabase-plain colored"></i> Power BI</div>
+                <div class="skill-pill"><img src="https://cdn.worldvectorlogo.com/logos/tableau-software.svg" width="15"> Tableau</div>
+            </div>
+        </div>
+
+        <div class="skill-category reveal">
+            <h3>Machine Learning & Engineering</h3>
+            <div class="orbit-container">
+                <div class="skill-pill"><i class="devicon-scikitlearn-original colored"></i> Scikit Learn</div>
+                <div class="skill-pill"><i class="devicon-pandas-original colored"></i> BeautifulSoup</div>
+                <div class="skill-pill"><i class="devicon-streamlit-plain colored"></i> Streamlit</div>
+                <div class="skill-pill"><i class="devicon-flask-original colored"></i> Flask</div>
+            </div>
+        </div>
+
+        <div class="skill-category reveal">
+            <h3>Web Technologies</h3>
+            <div class="orbit-container">
+                <div class="skill-pill"><i class="devicon-html5-plain colored"></i> HTML</div>
+                <div class="skill-pill"><i class="devicon-css3-plain colored"></i> CSS</div>
+                <div class="skill-pill"><i class="devicon-javascript-plain colored"></i> JavaScript</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <div class="section-header reveal">
+            <p>Career</p>
+            <h2>Experience</h2>
+        </div>
+        <div class="timeline-item reveal">
+            <h3>Deloitte Australia</h3>
+            <span class="role">Data Analytics Job Simulation | Feb 2025</span>
+            <p>Classified data using Excel and created dashboards in Tableau to drive business insights.</p>
+        </div>
+        <div class="timeline-item reveal">
+            <h3>Tata Group</h3>
+            <span class="role">Data Visualisation Job Simulation | Jan 2025</span>
+            <p>Created visuals for data analysis to help executives with effective decision making.</p>
+        </div>
+        <div class="timeline-item reveal">
+            <h3>IIT Madras</h3>
+            <span class="role">BS in Data Science | 2024 - 2028</span>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="section-header reveal">
+            <p>Contact</p>
+            <h2>Get in Touch</h2>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div style="background: rgba(0, 128, 0, 0.1); border: 1px solid green; padding: 15px; margin-bottom: 20px; border-radius: 4px; font-family: var(--font-mono);">
+                ✅ {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        <form action="/contact" method="POST" class="reveal">
+            <input type="text" name="name" placeholder="Name" required>
+            <textarea name="message" placeholder="How can I help?" rows="5" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-socials">
+                <a href="#" target="_blank">LinkedIn</a>
+                <a href="#" target="_blank">GitHub</a>
+                <a href="#" target="_blank">Instagram</a>
+                <a href="mailto:your-email@example.com">Email</a>
+            </div>
+            <div class="footer-line"></div>
+            <p class="footer-copyright">
+                © 2025 Shubham Chaurasiya. Built with Python & Flask.<br>
+                Based in Mumbai, India.
+            </p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
